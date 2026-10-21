@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ቤተ እስጢፋኖስ - Life Hub & Personal Operating System</title>
+    <meta name="theme-color" content="#065f46">
+    <meta name="description" content="ቤተ እስጢፋኖስ - የዕለት ተዕለት ህይወትህ፣ መንፈሳዊ ጉዞህ እና ስራህ በአንድ ቦታ የሚመራበት ዲጂታል ማዕከል">
+    
+    <!-- Link to External PWA Manifest -->
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/color/192/000000/orthodox-cross.png">
+
+    <!-- Tailwind CSS (via CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: { 800: '#065f46', 900: '#064e3b' },
+                        gold: '#d97706'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Translucent Glassmorphism Panel */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .dark .glass-panel {
+            background: rgba(15, 23, 42, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Virgin Mary Background Watermark Overlay */
+        .bg-virgin-mary {
+            background-image: linear-gradient(rgba(6, 95, 70, 0.88), rgba(6, 78, 59, 0.92)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Virgin_Mary_with_Jesus_child_Ethiopian_icon.jpg/600px-Virgin_Mary_with_Jesus_child_Ethiopian_icon.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Flash Red Visual Alert for Alarms */
+        @keyframes flashRed {
+            0%, 100% { background-color: rgba(220, 38, 38, 0.1); }
+            50% { background-color: rgba(220, 38, 38, 0.8); }
+        }
+        .flash-alert {
+            animation: flashRed 0.5s infinite;
+        }
+    </style>
+</head>
+<body class="bg-virgin-mary min-h-screen text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300">
+
+    <!-- Header Section -->
+    <header class="p-6 text-white text-center relative border-b border-emerald-600/30">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            
+            <!-- Logo & Title -->
+            <div class="flex items-center gap-3 text-left">
+                <div class="w-16 h-16 bg-amber-500/20 border-2 border-amber-400 rounded-full flex items-center justify-center text-3xl shadow-lg">
+                    ✝️
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold tracking-wide text-amber-300" id="txt-title">ቤተ እስጢፋኖስ</h1>
+                    <p class="text-xs text-emerald-100" id="txt-subtitle">Personal Operating System & Spiritual Life Hub</p>
+                </div>
+            </div>
+
+            <!-- Header Action Controls -->
+            <div class="flex flex-wrap items-center gap-3">
+                <button id="installAppBtn" class="hidden bg-amber-500 hover:bg-amber-600 text-slate-900 px-3 py-1.5 rounded-lg text-xs font-bold shadow flex items-center gap-1 transition">
+                    📲 አፕሊኬሽኑን ጫን (Install App)
+                </button>
+
+                <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-emerald-900 border border-emerald-600 text-xs rounded-lg px-2 py-1.5 text-white focus:outline-none">
+                    <option value="am">አማርኛ (Amharic)</option>
+                    <option value="gz">ግዕዝ (Ge'ez)</option>
+                    <option value="en">English</option>
+                    <option value="ar">العربية (Arabic)</option>
+                </select>
+
+                <button onclick="toggleDarkMode()" class="bg-emerald-900 border border-emerald-600 p-2 rounded-lg text-sm hover:bg-emerald-700 transition">
+                    🌙 / ☀️
+                </button>
+            </div>
+        </div>
+
+        <!-- 4-Line Banner -->
+        <div class="max-w-3xl mx-auto mt-6 bg-emerald-950/70 p-4 rounded-xl border border-amber-400/40 text-xs md:text-sm text-amber-100 leading-relaxed shadow-xl">
+            <p class="font-semibold text-amber-300 mb-1" id="txt-heading">በስመ አብ ወወልድ ወመንፈስ ቅዱስ አሐዱ አምላክ አሜን!</p>
+            <p id="txt-desc1">• ቤተ እስጢፋኖስ — የዕለት ተዕለት ህይወትህ፣ መንፈሳዊ ጉዞህ እና ስራህ በአንድ ቦታ የሚመራበት ዲጂታል ማዕከል፤</p>
+            <p id="txt-desc2">• ጊዜህን በአግባቡ እንድትጠቀም፣ ግቦችህን እንድታሳካ እና መንፈሳዊ ጥንካሬህን እንድትጠብቅ የተዘጋጀ፤</p>
+            <p id="txt-desc3">• በእምነት እና በትጋት የተሞላ የስኬት ጎዳና!</p>
+        </div>
+    </header>
+
+    <!-- Main Grid Dashboard -->
+    <main class="max-w-7xl mx-auto p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- 1. Live Clock & Ethiopian Calendar -->
+        <section class="glass-panel p-5 rounded-2xl shadow-xl">
+            <h2 class="text-lg font-bold text-emerald-800 dark:text-emerald-400 mb-3">⏰ ሰዓት እና ካላንደር</h2>
+            <div class="text-center py-3 bg-emerald-50 dark:bg-slate-800 rounded-xl mb-3 border border-emerald-200 dark:border-emerald-800">
+                <div id="liveClock" class="text-3xl font-extrabold text-emerald-900 dark:text-emerald-300">00:00:00 AM</div>
+                <div id="ethiopianDate" class="text-sm font-semibold text-amber-700 dark:text-amber-400 mt-1">የኢትዮጵያ ቀን: --/--/----</div>
+                <div id="gregorianDate" class="text-xs text-slate-500">Gregorian: --/--/----</div>
+            </div>
+            <div class="bg-amber-50 dark:bg-amber-950/40 p-3 rounded-lg border border-amber-200 dark:border-amber-800 text-xs">
+                <p class="font-bold text-amber-800 dark:text-amber-300">✝️ መንፈሳዊ እና የባህላዊ በዓላት ካላንደር</p>
+                <p id="holidayNotice" class="text-slate-700 dark:text-slate-300 mt-1">ዛሬ፡ የዕለቱ መንፈሳዊ በዓል በማሰላሰል ላይ...</p>
+            </div>
+        </section>
+
+        <!-- 2. Auto Hourly Quotes -->
+        <section class="glass-panel p-5 rounded-2xl shadow-xl">
+            <h2 class="text-lg font-bold text-emerald-800 dark:text-emerald-400 mb-3">📜 የዕለቱ አባባል እና ጥቅስ</h2>
+            <div class="p-4 bg-amber-500/10 border-l-4 border-amber-500 rounded-r-xl min-h-[100px] flex flex-col justify-between">
+                <p id="hourlyQuote" class="italic text-sm text-slate-700 dark:text-slate-200">"እግዚአብሔር ብርሃኔና መድኃኒቴ ነው የሚያስፈራኝ ማን ነው?"</p>
+                <button onclick="generateRandomQuote()" class="mt-2 text-xs text-emerald-700 dark:text-emerald-400 font-bold self-end hover:underline">🔄 አዲስ ጥቅስ</button>
+            </div>
+        </section>
+
+        <!-- 3. Spiritual Hub -->
+        <section class="glass-panel p-5 rounded-2xl shadow-xl">
+            <h2 class="text-lg font-bold text-emerald-800 dark:text-emerald-400 mb-3">🙏 መንፈሳዊ ህይወት እና ተግባራት</h2>
+            <div class="space-y-2 text-sm">
+                <label class="flex items-center gap-2 cursor-pointer p-1.5 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded">
+                    <input type="checkbox" id="sp1" onchange="saveSpiritualState()" class="w-4 h-4 text-emerald-600 rounded">
+                    <span>የጠዋት ፀሎት / የውዳሴ ማርያም ንባብ</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer p-1.5 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded">
+                    <input type="checkbox" id="sp2" onchange="saveSpiritualState()" class="w-4 h-4 text-emerald-600 rounded">
+                    <span>የዕለቱ የመጽሐፍ ቅዱስ ምዕራፍ ንባብ</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer p-1.5 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded">
+                    <input type="checkbox" id="sp3" onchange="saveSpiritualState()" class="w-4 h-4 text-emerald-600 rounded">
+                    <span>ምጽዋት እና የበጎ አድራጎት ስራ</span>
+                </label>
+            </div>
+        </section>
+
+        <!-- 4. Tasks & Alarms System -->
+        <section class="glass-panel p-5 rounded-2xl shadow-xl lg:col-span-2">
+            <h2 class="text-lg font-bold text-emerald-800 dark:text-emerald-400 mb-3">📋 ተግባራት እና ደወል (Tasks & Alarms)</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-4">
+                <input type="text" id="taskTitle" placeholder="የስራው ስም..." class="p-2 border border-slate-300 dark:border-slate-700 rounded-lg text-sm bg-white dark:bg-slate-800 focus:outline-none">
+                <input type="datetime-local" id="taskTime" class="p-2 border border-slate-300 dark:border-slate-700 rounded-lg text-sm bg-white dark:bg-slate-800 focus:outline-none">
+                <button onclick="addTask()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2 rounded-lg text-sm transition">➕ መዝግብ</button>
+            </div>
+            <ul id="taskList" class="space-y-2 max-h-48 overflow-y-auto"></ul>
+        </section>
+
+        <!-- 5. Pomodoro Timer -->
+        <section class="glass-panel p-5 rounded-2xl shadow-xl text-center">
+            <h2 class="text-lg font-bold text-emerald-800 dark:text-emerald-400 mb-3">⏱️ Pomodoro Timer</h2>
+            <div id="pomoDisplay" class="text-4xl font-extrabold my-2">25:00</div>
+            <div class="flex justify-center gap-2">
+                <button onclick="startPomodoro()" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition">ጀምር</button>
+                <button onclick="resetPomodoro()" class="bg-slate-500 hover:bg-slate-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition">አድስ</button>
+            </div>
+        </section>
+
+        <!-- 6. Finance Tracker -->
+        <section class="glass-panel p-5 rounded-2xl shadow-xl lg:col-span-2">
+            <h2 class="text-lg font-bold text-emerald-800 dark:text-emerald-400 mb-3">💰 የግል ፋይናንስ (Income & Expense Tracker)</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 mb-4">
+                <input type="text" id="finDesc" placeholder="መግለጫ..." class="p-2 border border-slate-300 dark:border-slate-700 rounded-lg text-sm bg-white dark:bg-slate-800">
+                <input type="number" id="finAmount" placeholder="መጠን (ብር)" class="p-2 border border-slate-300 dark:border-slate-700 rounded-lg text-sm bg-white dark:bg-slate-800">
+                <select id="finType" class="p-2 border border-slate-300 dark:border-slate-700 rounded-lg text-sm bg-white dark:bg-slate-800">
+                    <option value="income">ገቢ (Income)</option>
+                    <option value="expense">ወጪ (Expense)</option>
+                </select>
+                <button onclick="addTransaction()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2 rounded-lg text-sm transition">መዝግብ</button>
+            </div>
+            <div class="grid grid-cols-3 gap-3 text-center mb-4">
+                <div class="bg-emerald-100 dark:bg-emerald-950 p-2 rounded-xl border border-emerald-300 dark:border-emerald-800"><div class="text-xs text-slate-500">ገቢ</div><div id="totalIncome" class="font-bold text-emerald-600 dark:text-emerald-400">0 ብር</div></div>
+                <div class="bg-red-100 dark:bg-red-950 p-2 rounded-xl border border-red-300 dark:border-red-800"><div class="text-xs text-slate-500">ወጪ</div><div id="totalExpense" class="font-bold text-red-600 dark:text-red-400">0 ብር</div></div>
+                <div class="bg-amber-100 dark:bg-amber-950 p-2 rounded-xl border border-amber-300 dark:border-amber-800"><div class="text-xs text-slate-500">ቀሪ ሂሳብ</div><div id="netBalance" class="font-bold text-amber-600 dark:text-amber-400">0 ብር</div></div>
+            </div>
+            <div class="max-h-36 overflow-y-auto">
+                <table class="w-full text-left text-xs">
+                    <thead><tr class="border-b border-slate-300 dark:border-slate-700 text-slate-500"><th class="p-1">መግለጫ</th><th class="p-1">አይነት</th><th class="p-1">መጠን</th><th class="p-1">እርምጃ</th></tr></thead>
+                    <tbody id="finTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 7. Health & Wellness Tracker -->
+        <section class="glass-panel p-5 rounded-2xl shadow-xl">
+            <h2 class="text-lg font-bold text-emerald-800 dark:text-emerald-400 mb-3">🏥 የጤና እና የሰውነት እንቅስቃሴ</h2>
+            <div class="mb-3 bg-blue-50 dark:bg-blue-950 p-3 rounded-xl border border-blue-200 dark:border-blue-800 flex justify-between items-center">
+                <div>
+                    <div class="text-xs font-bold text-blue-800 dark:text-blue-300">💧 የውሃ መጠን</div>
+                    <div id="waterCount" class="text-sm font-extrabold text-blue-600 dark:text-blue-400">0 / 8 ብርጭቆ</div>
+                </div>
+                <button onclick="addWater()" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs font-bold transition">+1 ጠጣሁ</button>
+            </div>
+            <div id="healthAlert" class="hidden p-2 bg-red-500 text-white text-xs font-bold rounded mb-2 text-center animate-pulse">
+                ⚠️ ማስጠንቀቂያ፡ የደም ግፊት/የልብ ምት ከመደበኛው ውጪ ነው!
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+                <div><label class="text-slate-500">የልብ ምት (BPM):</label><input type="number" id="heartRate" onchange="checkHealth()" placeholder="75" class="w-full p-1.5 border border-slate-300 dark:border-slate-700 rounded bg-white dark:bg-slate-800"></div>
+                <div><label class="text-slate-500">እርምጃ (Steps):</label><input type="number" id="stepCounter" placeholder="5000" class="w-full p-1.5 border border-slate-300 dark:border-slate-700 rounded bg-white dark:bg-slate-800"></div>
+            </div>
+        </section>
+
+        <!-- 8. Media Vault & E-Book Reader -->
+        <section class="glass-panel p-5 rounded-2xl shadow-xl">
+            <h2 class="text-lg font-bold text-emerald-800 dark:text-emerald-400 mb-3">📁 ሚዲያ እና መጽሐፍት (Media Vault)</h2>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs text-slate-500 mb-1">የአካባቢ መዝሙር/ኦዲዮ መርጠህ አጫውት፡</label>
+                    <input type="file" accept="audio/*" onchange="playLocalAudio(event)" class="text-xs w-full">
+                    <audio id="audioPlayer" controls class="w-full mt-2 hidden"></audio>
+                </div>
+                <hr class="border-slate-200 dark:border-slate-700">
+                <div>
+                    <label class="block text-xs text-slate-500 mb-1">TXT መጽሐፍ ከፍተህ አንብብ፡</label>
+                    <input type="file" accept=".txt" onchange="readEbook(event)" class="text-xs w-full">
+                    <div id="ebookViewer" class="mt-2 p-2 bg-white dark:bg-slate-800 text-xs rounded-lg max-h-28 overflow-y-auto border border-slate-300 dark:border-slate-700 hidden"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. Password Vault & Quick Notes -->
+        <section class="glass-panel p-5 rounded-2xl shadow-xl">
+            <h2 class="text-lg font-bold text-emerald-800 dark:text-emerald-400 mb-3">🔐 Password Keeper & Notes</h2>
+            <textarea id="quickNotes" onkeyup="saveNotes()" placeholder="የኮድ ስኒፔቶች፣ የይለፍ ቃላት እና ማስታወሻዎች..." class="w-full p-2 border border-slate-300 dark:border-slate-700 rounded text-xs h-28 bg-white dark:bg-slate-800 focus:outline-none"></textarea>
+        </section>
+
+        <!-- 10. Emergency Contacts -->
+        <section class="glass-panel p-5 rounded-2xl shadow-xl">
+            <h2 class="text-lg font-bold text-emerald-800 dark:text-emerald-400 mb-3">📞 የድንገተኛ ስልኮች (Emergency Contacts)</h2>
+            <div class="space-y-2 text-xs">
+                <div class="flex justify-between items-center bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">
+                    <span>🚑 አምቡላንስ / ፖሊስ: 939 / 991</span>
+                    <button onclick="navigator.clipboard.writeText('991')" class="text-emerald-600 font-bold hover:underline">Copy</button>
+                </div>
+                <div class="flex justify-between items-center bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">
+                    <span>🏦 የባንክ ሂሳብ ቁጥር (CBE)</span>
+                    <button onclick="navigator.clipboard.writeText('10000000000')" class="text-emerald-600 font-bold hover:underline">Copy</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Alarm Audio Sound -->
+    <audio id="alarmSound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" preload="auto"></audio>
+
+    <!-- Embedded Single JavaScript Engine -->
+    <script>
+        /* ----------------------------------------------------
+           1. Multi-Language Dictionary & Logic
+        ---------------------------------------------------- */
+        const translations = {
+            am: {
+                title: "ቤተ እስጢፋኖስ",
+                subtitle: "Personal Operating System & Spiritual Life Hub",
+                heading: "በስመ አብ ወወልድ ወመንፈስ ቅዱስ አሐዱ አምላክ አሜን!",
+                desc1: "• ቤተ እስጢፋኖስ — የዕለት ተዕለት ህይወትህ፣ መንፈሳዊ ጉዞህ እና ስራህ በአንድ ቦታ የሚመራበት ዲጂታል ማዕከል፤",
+                desc2: "• ጊዜህን በአግባቡ እንድትጠቀም፣ ግቦችህን እንድታሳካ እና መንፈሳዊ ጥንካሬህን እንድትጠብቅ የተዘጋጀ፤",
+                desc3: "• በእምነት እና በትጋት የተሞላ የስኬት ጎዳና!"
+            },
+            gz: {
+                title: "ቤተ እስጢፋኖስ",
+                subtitle: "ሥርዓተ ሕይወት ወማዕከለ መንፈስ",
+                heading: "በስመ አብ ወወልድ ወመንፈስ ቅዱስ አሐዱ አምላክ አሜን!",
+                desc1: "• ቤተ እስጢፋኖስ — ማዕከለ ሕይወት ወመንፈስ፤",
+                desc2: "• ዘያቀንዕ ጊዜከ ወያጸንዕ ሃይማኖተከ፤",
+                desc3: "• ፍኖተ ስራ ወበረከት!"
+            },
+            en: {
+                title: "Bete Estifanos",
+                subtitle: "Personal Operating System & Spiritual Life Hub",
+                heading: "In the name of the Father, the Son, and the Holy Spirit, One God, Amen!",
+                desc1: "• Bete Estifanos — Your personal digital operating system and spiritual life hub;",
+                desc2: "• Designed to organize your daily tasks, spiritual journey, and finance;",
+                desc3: "• A path of faith, productivity, and success!"
+            },
+            ar: {
+                title: "بيت إستيفانوس",
+                subtitle: "مركز الحياة الروحية والنظام الشخصي",
+                heading: "باسم الأب والابن والروح القدس إله واحد، آمين!",
+                desc1: "• بيت إستيفانوس — مركزك الرقمي للحياة الروحية والعملية፤",
+                desc2: "• مصمم لتنظيم وقتك، مهامك، وأهدافك اليومية፤",
+                desc3: "• طريق النجاح والإيمان!"
+            }
+        };
+
+        function changeLanguage(lang) {
+            const t = translations[lang] || translations.am;
+            document.getElementById('txt-title').innerText = t.title;
+            document.getElementById('txt-subtitle').innerText = t.subtitle;
+            document.getElementById('txt-heading').innerText = t.heading;
+            document.getElementById('txt-desc1').innerText = t.desc1;
+            document.getElementById('txt-desc2').innerText = t.desc2;
+            document.getElementById('txt-desc3').innerText = t.desc3;
+        }
+
+        /* ----------------------------------------------------
+           2. PWA & Service Worker Registration
+        ---------------------------------------------------- */
+        let deferredPrompt;
+        const installAppBtn = document.getElementById('installAppBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installAppBtn.classList.remove('hidden');
+        });
+
+        installAppBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') installAppBtn.classList.add('hidden');
+                deferredPrompt = null;
+            }
+        });
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('SW Registered!', reg))
+                    .catch(err => console.log('SW Registration Failed!', err));
+            });
+        }
+
+        /* ----------------------------------------------------
+           3. Live Clock & Ethiopian Calendar
+        ---------------------------------------------------- */
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('liveClock').innerText = now.toLocaleTimeString();
+            document.getElementById('gregorianDate').innerText = 'Gregorian: ' + now.toDateString();
+
+            const ethYear = now.getFullYear() - 8;
+            const ethMonth = now.getMonth() + 1;
+            const ethDay = now.getDate();
+            document.getElementById('ethiopianDate').innerText = `የኢትዮጵያ ቀን: ${ethDay}/${ethMonth}/${ethYear} ዓ.ም`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        /* ----------------------------------------------------
+           4. Auto Hourly Quotes
+        ---------------------------------------------------- */
+        const quotes = [
+            "\"እግዚአብሔር ብርሃኔና መድኃኒቴ ነው የሚያስፈራኝ ማን ነው?\" — መዝሙረ ዳዊት 27:1",
+            "\"ትጋት ለሰው ታላቅ ሀብት ነው።\" — ምሳሌ 12:27",
+            "\"ስራህን ለእግዚአብሔር አደራ ስጥ፥ አሳብህም ትጸናለች።\" — ምሳሌ 16:3",
+            "\"ሁሉን ማድረግ በሚያስችለኝ በእርሱ ሁሉን እችላለሁ።\" — ፊልጵስዩስ 4:13"
+        ];
+
+        function generateRandomQuote() {
+            const random = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('hourlyQuote').innerText = random;
+        }
+
+        /* ----------------------------------------------------
+           5. Tasks & Alarms System
+        ---------------------------------------------------- */
+        let tasks = JSON.parse(localStorage.getItem('ete_tasks') || '[]');
+
+        function renderTasks() {
+            const list = document.getElementById('taskList');
+            list.innerHTML = '';
+            tasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                li.className = "flex justify-between items-center p-2 bg-white dark:bg-slate-800 rounded-lg text-xs border border-slate-200 dark:border-slate-700 shadow-sm";
+                li.innerHTML = `
+                    <div>
+                        <span class="font-bold">${task.title}</span>
+                        <span class="text-slate-400 block">${new Date(task.time).toLocaleString()}</span>
+                    </div>
+                    <button onclick="deleteTask(${index})" class="text-red-500 font-bold hover:underline">አጥፋ</button>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        function addTask() {
+            const title = document.getElementById('taskTitle').value;
+            const time = document.getElementById('taskTime').value;
+            if (!title || !time) return alert('እባክዎን የታስኩን ስም እና ሰዓት ያስገቡ!');
+
+            tasks.push({ title, time, alerted: false });
+            localStorage.setItem('ete_tasks', JSON.stringify(tasks));
+            document.getElementById('taskTitle').value = '';
+            document.getElementById('taskTime').value = '';
+            renderTasks();
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            localStorage.setItem('ete_tasks', JSON.stringify(tasks));
+            renderTasks();
+        }
+
+        setInterval(() => {
+            const now = new Date().getTime();
+            tasks.forEach(task => {
+                const taskTime = new Date(task.time).getTime();
+                if (taskTime <= now && !task.alerted) {
+                    task.alerted = true;
+                    localStorage.setItem('ete_tasks', JSON.stringify(tasks));
+                    
+                    document.getElementById('alarmSound').play().catch(() => {});
+                    document.body.classList.add('flash-alert');
+                    setTimeout(() => document.body.classList.remove('flash-alert'), 3000);
+
+                    alert(`⏰ የማሳሰቢያ ሰዓት ደርሷል: ${task.title}`);
+                }
+            });
+        }, 5000);
+
+        renderTasks();
+
+        /* ----------------------------------------------------
+           6. Pomodoro Timer
+        ---------------------------------------------------- */
+        let pomoTime = 1500;
+        let pomoInterval;
+
+        function startPomodoro() {
+            clearInterval(pomoInterval);
+            pomoInterval = setInterval(() => {
+                if (pomoTime <= 0) {
+                    clearInterval(pomoInterval);
+                    document.getElementById('alarmSound').play().catch(() => {});
+                    alert('⏱️ የ 25 ደቂቃ Pomodoro ትኩረት ሰዓት አብቅቷል!');
+                    return;
+                }
+                pomoTime--;
+                const min = Math.floor(pomoTime / 60);
+                const sec = pomoTime % 60;
+                document.getElementById('pomoDisplay').innerText = `${min}:${sec < 10 ? '0' : ''}${sec}`;
+            }, 1000);
+        }
+
+        function resetPomodoro() {
+            clearInterval(pomoInterval);
+            pomoTime = 1500;
+            document.getElementById('pomoDisplay').innerText = "25:00";
+        }
+
+        /* ----------------------------------------------------
+           7. Personal Finance Tracker
+        ---------------------------------------------------- */
+        let transactions = JSON.parse(localStorage.getItem('ete_finances') || '[]');
+
+        function renderFinances() {
+            const tbody = document.getElementById('finTableBody');
+            tbody.innerHTML = '';
+            let inc = 0, exp = 0;
+
+            transactions.forEach((item, index) => {
+                if (item.type === 'income') inc += Number(item.amount);
+                else exp += Number(item.amount);
+
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100 dark:border-slate-800";
+                tr.innerHTML = `
+                    <td class="p-1">${item.desc}</td>
+                    <td class="p-1 ${item.type === 'income' ? 'text-emerald-600' : 'text-red-500'}">${item.type}</td>
+                    <td class="p-1">${item.amount} ብር</td>
+                    <td class="p-1"><button onclick="deleteTransaction(${index})" class="text-red-500 font-bold">x</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('totalIncome').innerText = inc + ' ብር';
+            document.getElementById('totalExpense').innerText = exp + ' ብር';
+            document.getElementById('netBalance').innerText = (inc - exp) + ' ብር';
+        }
+
+        function addTransaction() {
+            const desc = document.getElementById('finDesc').value;
+            const amount = document.getElementById('finAmount').value;
+            const type = document.getElementById('finType').value;
+
+            if (!desc || !amount) return alert('እባክዎን መግለጫ እና መጠን ያስገቡ!');
+
+            transactions.push({ desc, amount, type });
+            localStorage.setItem('ete_finances', JSON.stringify(transactions));
+            document.getElementById('finDesc').value = '';
+            document.getElementById('finAmount').value = '';
+            renderFinances();
+        }
+
+        function deleteTransaction(index) {
+            transactions.splice(index, 1);
+            localStorage.setItem('ete_finances', JSON.stringify(transactions));
+            renderFinances();
+        }
+
+        renderFinances();
+
+        /* ----------------------------------------------------
+           8. Health & Water Tracker
+        ---------------------------------------------------- */
+        let waterCount = Number(localStorage.getItem('ete_water') || 0);
+
+        function addWater() {
+            waterCount = (waterCount >= 8) ? 0 : waterCount + 1;
+            localStorage.setItem('ete_water', waterCount);
+            document.getElementById('waterCount').innerText = `${waterCount} / 8 ብርጭቆ`;
+        }
+
+        function checkHealth() {
+            const hr = document.getElementById('heartRate').value;
+            const alertBox = document.getElementById('healthAlert');
+            if (hr && (hr < 50 || hr > 120)) alertBox.classList.remove('hidden');
+            else alertBox.classList.add('hidden');
+        }
+
+        /* ----------------------------------------------------
+           9. Media Vault & E-Book Reader Logic
+        ---------------------------------------------------- */
+        function playLocalAudio(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const player = document.getElementById('audioPlayer');
+                player.src = URL.createObjectURL(file);
+                player.classList.remove('hidden');
+                player.play();
+            }
+        }
+
+        function readEbook(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const viewer = document.getElementById('ebookViewer');
+                    viewer.innerText = evt.target.result;
+                    viewer.classList.remove('hidden');
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        /* ----------------------------------------------------
+           10. Notes Persistence & Dark Mode Toggle
+        ---------------------------------------------------- */
+        document.getElementById('quickNotes').value = localStorage.getItem('ete_notes') || '';
+
+        function saveNotes() {
+            localStorage.setItem('ete_notes', document.getElementById('quickNotes').value);
+        }
+
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        function saveSpiritualState() {
+            localStorage.setItem('sp1', document.getElementById('sp1').checked);
+            localStorage.setItem('sp2', document.getElementById('sp2').checked);
+            localStorage.setItem('sp3', document.getElementById('sp3').checked);
+        }
+
+        // Load Spiritual State
+        document.getElementById('sp1').checked = localStorage.getItem('sp1') === 'true';
+        document.getElementById('sp2').checked = localStorage.getItem('sp2') === 'true';
+        document.getElementById('sp3').checked = localStorage.getItem('sp3') === 'true';
+    </script>
+</body>
+</html>
