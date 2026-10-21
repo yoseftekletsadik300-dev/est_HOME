@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ቤተ እስጢፋኖስ - Life Hub & Personal Operating System</title>
+    <title>ቤተዮሴፍወእስጢፋኖስ - Personal Operating System</title>
     <meta name="theme-color" content="#065f46">
     <meta name="description" content="ቤተ እስጢፋኖስ - የዕለት ተዕለት ህይወትህ፣ መንፈሳዊ ጉዞህ እና ስራህ በአንድ ቦታ የሚመራበት ዲጂታል ማዕከል">
     
@@ -28,87 +28,96 @@
     </script>
 
     <style>
-        /* Translucent Glassmorphism Panel */
+        /* Translucent Dark Glassmorphism Panel */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.88);
+            background: rgba(15, 23, 42, 0.82);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-        }
-        .dark .glass-panel {
-            background: rgba(15, 23, 42, 0.88);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            border-radius: 1rem;
         }
 
-        /* Virgin Mary Background Watermark Overlay */
+        /* Virgin Mary Clear Background Watermark */
         .bg-virgin-mary {
-            background-image: linear-gradient(rgba(6, 95, 70, 0.88), rgba(6, 78, 59, 0.92)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Virgin_Mary_with_Jesus_child_Ethiopian_icon.jpg/600px-Virgin_Mary_with_Jesus_child_Ethiopian_icon.jpg');
+            background-image: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.75)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Virgin_Mary_with_Jesus_child_Ethiopian_icon.jpg/800px-Virgin_Mary_with_Jesus_child_Ethiopian_icon.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            background-repeat: no-repeat;
         }
 
-        /* Flash Red Visual Alert for Alarms */
+        /* Custom Orange Red Gradient Button */
+        .btn-primary {
+            background: linear-gradient(135deg, #f59e0b, #dc2626);
+            color: #ffffff;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #d97706, #b91c1c);
+            transform: translateY(-1px);
+        }
+
         @keyframes flashRed {
-            0%, 100% { background-color: rgba(220, 38, 38, 0.1); }
+            0%, 100% { background-color: rgba(220, 38, 38, 0.2); }
             50% { background-color: rgba(220, 38, 38, 0.8); }
         }
-        .flash-alert {
-            animation: flashRed 0.5s infinite;
-        }
+        .flash-alert { animation: flashRed 0.5s infinite; }
     </style>
 </head>
-<body class="bg-virgin-mary min-h-screen text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300">
+<body class="bg-virgin-mary min-h-screen text-slate-100 font-sans transition-colors duration-300"></body>
 
     <!-- Header Section -->
-    <header class="p-6 text-white text-center relative border-b border-emerald-600/30">
+    <header class="p-6 text-white text-center relative border-b border-amber-500/30">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             
             <!-- Logo & Title -->
             <div class="flex items-center gap-3 text-left">
-                <div class="w-16 h-16 bg-amber-500/20 border-2 border-amber-400 rounded-full flex items-center justify-center text-3xl shadow-lg">
+                <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-red-600 border-2 border-amber-300 rounded-full flex items-center justify-center text-3xl shadow-xl transform hover:scale-105 transition">
                     ✝️
                 </div>
                 <div>
-                    <h1 class="text-3xl font-bold tracking-wide text-amber-300" id="txt-title">ቤተ እስጢፋኖስ</h1>
-                    <p class="text-xs text-emerald-100" id="txt-subtitle">Personal Operating System & Spiritual Life Hub</p>
+                    <h1 class="text-3xl font-extrabold tracking-wide text-amber-300 font-serif" id="txt-title">ቤተ ዮሴፍወእስጢፋኖስ</h1>
+                    <p class="text-xs text-amber-100/80" id="txt-subtitle">Personal Operating System & Spiritual Life Hub</p>
                 </div>
             </div>
 
             <!-- Header Action Controls -->
             <div class="flex flex-wrap items-center gap-3">
-                <button id="installAppBtn" class="hidden bg-amber-500 hover:bg-amber-600 text-slate-900 px-3 py-1.5 rounded-lg text-xs font-bold shadow flex items-center gap-1 transition">
+                <button id="installAppBtn" class="hidden btn-primary px-3 py-1.5 rounded-lg text-xs font-bold shadow flex items-center gap-1 transition">
                     📲 አፕሊኬሽኑን ጫን (Install App)
                 </button>
 
-                <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-emerald-900 border border-emerald-600 text-xs rounded-lg px-2 py-1.5 text-white focus:outline-none">
+                <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-slate-900 border border-amber-500/40 text-xs rounded-lg px-2 py-1.5 text-amber-200 focus:outline-none">
                     <option value="am">አማርኛ (Amharic)</option>
                     <option value="gz">ግዕዝ (Ge'ez)</option>
                     <option value="en">English</option>
                     <option value="ar">العربية (Arabic)</option>
                 </select>
 
-                <button onclick="toggleDarkMode()" class="bg-emerald-900 border border-emerald-600 p-2 rounded-lg text-sm hover:bg-emerald-700 transition">
+                <button onclick="toggleDarkMode()" class="bg-slate-900 border border-amber-500/40 p-2 rounded-lg text-sm hover:bg-slate-800 transition">
                     🌙 / ☀️
                 </button>
             </div>
         </div>
 
         <!-- 4-Line Banner -->
-        <div class="max-w-3xl mx-auto mt-6 bg-emerald-950/70 p-4 rounded-xl border border-amber-400/40 text-xs md:text-sm text-amber-100 leading-relaxed shadow-xl">
+        <div class="max-w-3xl mx-auto mt-6 bg-slate-950/80 p-4 rounded-xl border border-amber-500/40 text-xs md:text-sm text-amber-100 leading-relaxed shadow-xl">
             <p class="font-semibold text-amber-300 mb-1" id="txt-heading">በስመ አብ ወወልድ ወመንፈስ ቅዱስ አሐዱ አምላክ አሜን!</p>
-            <p id="txt-desc1">• ቤተ እስጢፋኖስ — የዕለት ተዕለት ህይወትህ፣ መንፈሳዊ ጉዞህ እና ስራህ በአንድ ቦታ የሚመራበት ዲጂታል ማዕከል፤</p>
+            <p id="txt-desc1">• ቤተ ዮሴፍወእስጢፋኖስ — የዕለት ተዕለት ህይወትህ፣ መንፈሳዊ ጉዞህ እና ስራህ በአንድ ቦታ የሚመራበት ዲጂታል ማዕከል፤</p>
             <p id="txt-desc2">• ጊዜህን በአግባቡ እንድትጠቀም፣ ግቦችህን እንድታሳካ እና መንፈሳዊ ጥንካሬህን እንድትጠብቅ የተዘጋጀ፤</p>
             <p id="txt-desc3">• በእምነት እና በትጋት የተሞላ የስኬት ጎዳና!</p>
         </div>
     </header>
+                   
 
     <!-- Main Grid Dashboard -->
     <main class="max-w-7xl mx-auto p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
         <!-- 1. Live Clock & Ethiopian Calendar -->
         <section class="glass-panel p-5 rounded-2xl shadow-xl">
-            <h2 class="text-lg font-bold text-emerald-800 dark:text-emerald-400 mb-3">⏰ ሰዓት እና ካላንደር</h2>
+              <h2 id="head-clock" class="text-lg font-bold text-amber-300 mb-3">⏰ ሰዓት እና ካላንደር</h2>
             <div class="text-center py-3 bg-emerald-50 dark:bg-slate-800 rounded-xl mb-3 border border-emerald-200 dark:border-emerald-800">
                 <div id="liveClock" class="text-3xl font-extrabold text-emerald-900 dark:text-emerald-300">00:00:00 AM</div>
                 <div id="ethiopianDate" class="text-sm font-semibold text-amber-700 dark:text-amber-400 mt-1">የኢትዮጵያ ቀን: --/--/----</div>
@@ -122,7 +131,7 @@
 
         <!-- 2. Auto Hourly Quotes -->
         <section class="glass-panel p-5 rounded-2xl shadow-xl">
-            <h2 class="text-lg font-bold text-emerald-800 dark:text-emerald-400 mb-3">📜 የዕለቱ አባባል እና ጥቅስ</h2>
+            <h2 id="head-quote" class="text-lg font-bold text-amber-300 mb-3">📜 የዕለቱ አባባል እና ጥቅስ</h2>
             <div class="p-4 bg-amber-500/10 border-l-4 border-amber-500 rounded-r-xl min-h-[100px] flex flex-col justify-between">
                 <p id="hourlyQuote" class="italic text-sm text-slate-700 dark:text-slate-200">"እግዚአብሔር ብርሃኔና መድኃኒቴ ነው የሚያስፈራኝ ማን ነው?"</p>
                 <button onclick="generateRandomQuote()" class="mt-2 text-xs text-emerald-700 dark:text-emerald-400 font-bold self-end hover:underline">🔄 አዲስ ጥቅስ</button>
@@ -131,7 +140,7 @@
 
         <!-- 3. Spiritual Hub -->
         <section class="glass-panel p-5 rounded-2xl shadow-xl">
-            <h2 class="text-lg font-bold text-emerald-800 dark:text-emerald-400 mb-3">🙏 መንፈሳዊ ህይወት እና ተግባራት</h2>
+    <h2 id="head-spiritual" class="text-lg font-bold text-amber-300 mb-3">🙏 መንፈሳዊ ህይወት እና ተግባራት</h2>
             <div class="space-y-2 text-sm">
                 <label class="flex items-center gap-2 cursor-pointer p-1.5 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded">
                     <input type="checkbox" id="sp1" onchange="saveSpiritualState()" class="w-4 h-4 text-emerald-600 rounded">
@@ -251,9 +260,26 @@
                 </div>
             </div>
         </section>
+        <!-- 11. Dictionary Section -->
+        <section class="glass-panel p-5 rounded-2xl shadow-xl">
+            <h2 id="head-dict" class="text-lg font-bold text-amber-300 mb-3">📚 ቋንቋ እና መዝገበ ቃላት (Dictionary)</h2>
+            <div class="space-y-2">
+                <input type="text" id="dictInput" placeholder="ቃል ፈልግ (Word)..." class="w-full p-2 border border-amber-500/30 rounded-lg text-xs bg-slate-900 text-amber-100 focus:outline-none">
+                <button onclick="searchDict()" class="w-full btn-primary p-2 rounded-lg text-xs font-bold">🔍 ፈልግ (Search)</button>
+                <div id="dictResult" class="p-2 bg-slate-950/80 rounded-lg border border-amber-500/20 text-xs min-h-[50px] text-amber-200">
+                    ቃላትን እዚህ መፈለግ ትችላለህ...
+                </div>
+            </div>
+        </section>
 
     </main>
-
+<!-- Footer Section -->
+    <footer class="mt-12 py-6 bg-slate-950/90 border-t border-amber-500/30 text-center text-xs text-amber-200/80">
+        <div class="max-w-6xl mx-auto px-4 space-y-2">
+            <p class="font-bold text-amber-400">© 2026 ቤተ ዮሴፍወእስጢፋኖስ። መብቱ በሕግ የተጠበቀ ነው።</p>
+            <p class="text-slate-400">ይህ በ <strong>ዮሴፍ ተክለፃዲቅ</strong> የተሰራ አፕሊኬሽን ነው (Created with faith & dedication by Yosef Tekletsadik)</p>
+        </div>
+    </footer>
     <!-- Alarm Audio Sound -->
     <audio id="alarmSound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" preload="auto"></audio>
 
@@ -264,36 +290,64 @@
         ---------------------------------------------------- */
         const translations = {
             am: {
-                title: "ቤተ እስጢፋኖስ",
+                title: "ቤተ ዮሴፍወእስጢፋኖስ",
                 subtitle: "Personal Operating System & Spiritual Life Hub",
                 heading: "በስመ አብ ወወልድ ወመንፈስ ቅዱስ አሐዱ አምላክ አሜን!",
-                desc1: "• ቤተ እስጢፋኖስ — የዕለት ተዕለት ህይወትህ፣ መንፈሳዊ ጉዞህ እና ስራህ በአንድ ቦታ የሚመራበት ዲጂታል ማዕከል፤",
+                desc1: "• ቤተ ዮሴፍወእስጢፋኖስ — የዕለት ተዕለት ህይወትህ፣ መንፈሳዊ ጉዞህ እና ስራህ በአንድ ቦታ የሚመራበት ዲጂታል ማዕከል፤",
                 desc2: "• ጊዜህን በአግባቡ እንድትጠቀም፣ ግቦችህን እንድታሳካ እና መንፈሳዊ ጥንካሬህን እንድትጠብቅ የተዘጋጀ፤",
-                desc3: "• በእምነት እና በትጋት የተሞላ የስኬት ጎዳና!"
+                desc3: "• በእምነት እና በትጋት የተሞላ የስኬት ጎዳና!",
+                clockHead: "⏰ ሰዓት እና ካላንደር",
+                quoteHead: "📜 የዕለቱ አባባል እና ጥቅስ",
+                spiritualHead: "🙏 መንፈሳዊ ህይወት እና ተግባራት",
+                sp1: "የጠዋት ፀሎት / የውዳሴ ማርያም ንባብ",
+                sp2: "የዕለቱ የመጽሐፍ ቅዱስ ምዕራፍ ንባብ",
+                sp3: "ምጽዋት እና የበጎ አድራጎት ስራ",
+                dictHead: "📚 ቋንቋ እና መዝገበ ቃላት (Dictionary)"
             },
             gz: {
-                title: "ቤተ እስጢፋኖስ",
+                title: "ቤተ ዮሴፍወእስጢፋኖስ",
                 subtitle: "ሥርዓተ ሕይወት ወማዕከለ መንፈስ",
                 heading: "በስመ አብ ወወልድ ወመንፈስ ቅዱስ አሐዱ አምላክ አሜን!",
-                desc1: "• ቤተ እስጢፋኖስ — ማዕከለ ሕይወት ወመንፈስ፤",
+                desc1: "• ቤተ ዮሴፍወእስጢፋኖስ — ማዕከለ ሕይወት ወመንፈስ፤",
                 desc2: "• ዘያቀንዕ ጊዜከ ወያጸንዕ ሃይማኖተከ፤",
-                desc3: "• ፍኖተ ስራ ወበረከት!"
+                desc3: "• ፍኖተ ስራ ወበረከት!",
+                clockHead: "⏰ ሰዓት ወካላንደር",
+                quoteHead: "📜 ነበበ አበው",
+                spiritualHead: "🙏 ግብረ መንፈስ ወጸሎት",
+                sp1: "ጸሎተ ነግህ / ውዳሴ ማርያም",
+                sp2: "ንባበ መጽሐፍ ቅዱስ",
+                sp3: "ምጽዋት ወግብረ ሠናይ",
+                dictHead: "📚 መዝገበ ቃላት"
             },
             en: {
-                title: "Bete Estifanos",
+                title: "Bete Yosef WEstifanos",
                 subtitle: "Personal Operating System & Spiritual Life Hub",
                 heading: "In the name of the Father, the Son, and the Holy Spirit, One God, Amen!",
-                desc1: "• Bete Estifanos — Your personal digital operating system and spiritual life hub;",
-                desc2: "• Designed to organize your daily tasks, spiritual journey, and finance;",
-                desc3: "• A path of faith, productivity, and success!"
+                desc1: "• Bete Yosef WEstifanos — Your personal digital operating system and spiritual hub;",
+                desc2: "• Designed to organize your daily tasks, spiritual journey, and finances;",
+                desc3: "• A path of faith, productivity, and success!",
+                clockHead: "⏰ Live Clock & Calendar",
+                quoteHead: "📜 Hourly Inspiration",
+                spiritualHead: "🙏 Spiritual Tracker",
+                sp1: "Morning Prayers & Hymns",
+                sp2: "Daily Bible Chapter Reading",
+                sp3: "Charity & Good Deeds",
+                dictHead: "📚 Multi-Language Dictionary"
             },
             ar: {
-                title: "بيت إستيفانوس",
+                title: "بيت يوسف وإستيفانوس",
                 subtitle: "مركز الحياة الروحية والنظام الشخصي",
                 heading: "باسم الأب والابن والروح القدس إله واحد، آمين!",
-                desc1: "• بيت إستيفانوس — مركزك الرقمي للحياة الروحية والعملية፤",
+                desc1: "• بيت يوسف وإستيفانوس — مركزك الرقمي للحياة الروحية والعملية፤",
                 desc2: "• مصمم لتنظيم وقتك، مهامك، وأهدافك اليومية፤",
-                desc3: "• طريق النجاح والإيمان!"
+                desc3: "• طريق النجاح والإيمان!",
+                clockHead: "⏰ الساعة والتقويم",
+                quoteHead: "📜 حكم اليوم",
+                spiritualHead: "🙏 الأنشطة الروحية",
+                sp1: "صلاة الصباح والتراتيل",
+                sp2: "قراءة الكتاب المقدس",
+                sp3: "الأعمال الخيرية",
+                dictHead: "📚 القاموس اللغوي"
             }
         };
 
@@ -305,7 +359,17 @@
             document.getElementById('txt-desc1').innerText = t.desc1;
             document.getElementById('txt-desc2').innerText = t.desc2;
             document.getElementById('txt-desc3').innerText = t.desc3;
+            
+            if(document.getElementById('head-clock')) document.getElementById('head-clock').innerText = t.clockHead;
+            if(document.getElementById('head-quote')) document.getElementById('head-quote').innerText = t.quoteHead;
+            if(document.getElementById('head-spiritual')) document.getElementById('head-spiritual').innerText = t.spiritualHead;
+            if(document.getElementById('head-dict')) document.getElementById('head-dict').innerText = t.dictHead;
+            
+            if(document.getElementById('lbl-sp1')) document.getElementById('lbl-sp1').innerText = t.sp1;
+            if(document.getElementById('lbl-sp2')) document.getElementById('lbl-sp2').innerText = t.sp2;
+            if(document.getElementById('lbl-sp3')) document.getElementById('lbl-sp3').innerText = t.sp3;
         }
+           
 
         /* ----------------------------------------------------
            2. PWA & Service Worker Registration
@@ -573,6 +637,31 @@
         document.getElementById('sp1').checked = localStorage.getItem('sp1') === 'true';
         document.getElementById('sp2').checked = localStorage.getItem('sp2') === 'true';
         document.getElementById('sp3').checked = localStorage.getItem('sp3') === 'true';
+    /* Dictionary Search Logic */
+        const sampleDict = {
+            "ሰላም": "Peace / Peace be upon you (English) | ሰላም (ግዕዝ) | سلام (Arabic)",
+            "እምነት": "Faith / Belief (English) | ሃይማኖት (ግዕዝ) | إيمان (Arabic)",
+            "ፍቅር": "Love / Charity (English) | ሔስድ (ግዕዝ) | محبة (Arabic)",
+            "ብርሃን": "Light (English) | ጽባሕ (ግዕዝ) | نور (Arabic)",
+            "በረከት": "Blessing (English) | በረከት (ግዕዝ) | بركة (Arabic)",
+            "faith": "እምነት (Amharic) | ሃይማኖት (Ge'ez) | إيمان (Arabic)",
+            "peace": "ሰላም (Amharic) | ሰላም (Ge'ez) | سلام (Arabic)"
+        };
+
+        function searchDict() {
+            const q = document.getElementById('dictInput').value.trim().toLowerCase();
+            const res = document.getElementById('dictResult');
+            if (!q) {
+                res.innerText = "እባክዎን የሚፈልጉትን ቃል ያስገቡ።";
+                return;
+            }
+            const foundKey = Object.keys(sampleDict).find(k => k.toLowerCase() === q);
+            if (foundKey) {
+                res.innerHTML = `<strong>${foundKey}:</strong> ${sampleDict[foundKey]}`;
+            } else {
+                res.innerHTML = `<em>"${q}" የሚለው ቃል በመዝገበ ቃላቱ ውስጥ አልተገኘም።</em>`;
+            }
+        }
     </script>
 </body>
 </html>
