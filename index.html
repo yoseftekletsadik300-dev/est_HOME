@@ -131,7 +131,23 @@
             <p id="txt-desc3">• በእምነት እና በትጋት የተሞላ የስኬት ጎዳና!</p>
         </div>
     </header>
-                   
+    <!-- ☦️ የእመቤታችን የድንግል ማርያም ሥዕል እና ጸሎት Card -->
+    <div class="glass-panel p-4 mb-5 text-center rounded-2xl border border-amber-500/40 shadow-2xl">
+        <div class="relative inline-block rounded-xl overflow-hidden border-2 border-amber-400/60 p-1 bg-amber-500/10">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Virgin_Mary_Ethiopian_Icon.jpg/480px-Virgin_Mary_Ethiopian_Icon.jpg" 
+                 alt="የድንግል ማርያም ሥዕል" 
+                 class="w-48 h-auto mx-auto rounded-lg shadow-md hover:scale-105 transition-transform duration-300 object-cover"
+                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=500';">
+        </div>
+        <p class="mt-3 text-sm md:text-base font-extrabold text-amber-300 tracking-wide drop-shadow-sm">
+            "የኔ እናት አንቺ ከጎኔ አትለይኝ"
+        </p>
+    </div>
+                   <!-- 🕒 Live Date & Time Bar (አዲሱ የሰዓት ማሳያ) -->
+    <div class="glass-panel p-3 mb-4 text-center rounded-xl border border-amber-500/30">
+        <div id="liveClock" class="text-xl font-extrabold text-amber-500 tracking-wider mb-1">00:00:00 AM</div>
+        <div id="liveDate" class="text-xs font-medium text-amber-200/80">ቀን በመጫን ላይ...</div>
+    </div>
 
     <!-- Main Grid Dashboard -->
     <main class="max-w-7xl mx-auto p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -333,6 +349,49 @@
                 <textarea id="aiPrompt" rows="3" placeholder="ለ Gemini የምትጠይቀውን ሀሳብ ወይም ጥያቄ እዚህ አስቀምጥ..." class="w-full p-2 border border-amber-500/30 rounded-lg text-xs bg-slate-900 text-amber-100 focus:outline-none"></textarea>
                 <button onclick="saveAiPrompt()" class="w-full btn-primary p-2 rounded-lg text-xs font-bold">💾 ሀሳቡን ሴቭ አድርግ</button>
                 <div id="aiPromptsList" class="mt-3 space-y-2 max-h-40 overflow-y-auto"></div>
+            </div>
+        </section>
+   <!-- ☦️ 16. የጸሎትና የመንፈሳዊ መጻሕፍት ማዕከል (Prayers & Spiritual Books) -->
+        <section class="glass-panel p-5 rounded-2xl shadow-xl border border-amber-500/50">
+            <div class="flex items-center justify-between mb-4 border-b border-amber-500/30 pb-2">
+                <h2 class="text-xl font-bold text-amber-300 flex items-center gap-2">
+                    <span>☦️</span> የጸሎትና የመንፈሳዊ መጻሕፍት ማዕከል
+                </h2>
+                <span class="text-xs text-amber-200/70 bg-amber-500/20 px-2 py-1 rounded-full">መንፈሳዊ</span>
+            </div>
+
+            <!-- Tab Buttons (በጸሎት እና በመጻሕፍት መካከል ለመቀያየር) -->
+            <div class="flex gap-2 mb-4">
+                <button onclick="switchPrayerTab('prayers')" id="btnTabPrayers" class="flex-1 py-2 rounded-lg text-xs font-bold bg-amber-500 text-slate-950 transition-all">
+                    🙏 የዕለት ጸሎታት
+                </button>
+                <button onclick="switchPrayerTab('books')" id="btnTabBooks" class="flex-1 py-2 rounded-lg text-xs font-bold bg-slate-900/80 text-amber-200 border border-amber-500/30 transition-all">
+                    📚 መንፈሳዊ መጻሕፍት
+                </button>
+            </div>
+
+            <!-- Tab 1: የዕለት ጸሎታት -->
+            <div id="tabPrayersContent" class="space-y-3">
+                <div class="space-y-2">
+                    <input type="text" id="prayerTitle" placeholder="የጸሎቱ ርዕስ (ምሳሌ፡ ውዳሴ ማርያም የዘሰኑይ)..." class="w-full p-2 border border-amber-500/30 rounded-lg text-xs bg-slate-900 text-amber-100 focus:outline-none">
+                    <textarea id="prayerBody" rows="5" placeholder="የጸሎቱን ጽሁፍ እዚህ አስገባ..." class="w-full p-2 border border-amber-500/30 rounded-lg text-xs bg-slate-900 text-amber-100 focus:outline-none"></textarea>
+                    <button onclick="savePrayer()" class="w-full btn-primary p-2 rounded-lg text-xs font-bold">
+                        💾 ጸሎቱን መዝግብ
+                    </button>
+                </div>
+                <div id="prayersList" class="mt-4 space-y-3 max-h-60 overflow-y-auto pr-1"></div>
+            </div>
+
+            <!-- Tab 2: መንፈሳዊ መጻሕፍት (ተደብቆ ይቆያል) -->
+            <div id="tabBooksContent" class="space-y-3 hidden">
+                <div class="space-y-2">
+                    <input type="text" id="bookTitle" placeholder="የመጽሐፉ ርዕስ / ደራሲ..." class="w-full p-2 border border-amber-500/30 rounded-lg text-xs bg-slate-900 text-amber-100 focus:outline-none">
+                    <textarea id="bookBody" rows="5" placeholder="የመጽሐፉን ዋና ዋና ነጥቦች ወይም ሙሉ ጽሁፍ እዚህ አስገባ..." class="w-full p-2 border border-amber-500/30 rounded-lg text-xs bg-slate-900 text-amber-100 focus:outline-none"></textarea>
+                    <button onclick="saveSpiritualBook()" class="w-full btn-primary p-2 rounded-lg text-xs font-bold">
+                        💾 መጽሐፉን ሴቭ አድርግ
+                    </button>
+                </div>
+                <div id="booksList" class="mt-4 space-y-3 max-h-60 overflow-y-auto pr-1"></div>
             </div>
         </section>
     </main>
@@ -848,6 +907,136 @@
             renderStories();
             renderAiPrompts();
         });
+   /* ===== LIVE CLOCK & DATE LOGIC ===== */
+function updateLiveDateTime() {
+    const now = new Date();
+
+    // 1. ሰዓት (Time in 12-hour format)
+    const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+    const timeString = now.toLocaleTimeString('en-US', timeOptions);
+
+    // 2. ቀን እና እለት (Date in Amharic Locale)
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const dateString = now.toLocaleDateString('am-ET', dateOptions);
+
+    // በ HTML ኤለመንቶች ውስጥ ማስገባት
+    const clockEl = document.getElementById('liveClock');
+    const dateEl = document.getElementById('liveDate');
+
+    if (clockEl) clockEl.textContent = timeString;
+    if (dateEl) dateEl.textContent = dateString;
+}
+
+// አፑ እንደተከፈተ መጀመር እና በየ 1 ሰከንዱ (1000ms) ማደስ
+setInterval(updateLiveDateTime, 1000);
+window.addEventListener('DOMContentLoaded', updateLiveDateTime); 
+  /* ===== PRAYERS & SPIRITUAL BOOKS LOGIC ===== */
+
+        // Tab Switching Function
+        function switchPrayerTab(tab) {
+            const prayersTab = document.getElementById('tabPrayersContent');
+            const booksTab = document.getElementById('tabBooksContent');
+            const btnPrayers = document.getElementById('btnTabPrayers');
+            const btnBooks = document.getElementById('btnTabBooks');
+
+            if (tab === 'prayers') {
+                prayersTab.classList.remove('hidden');
+                booksTab.classList.add('hidden');
+                btnPrayers.className = "flex-1 py-2 rounded-lg text-xs font-bold bg-amber-500 text-slate-950 transition-all";
+                btnBooks.className = "flex-1 py-2 rounded-lg text-xs font-bold bg-slate-900/80 text-amber-200 border border-amber-500/30 transition-all";
+            } else {
+                booksTab.classList.remove('hidden');
+                prayersTab.classList.add('hidden');
+                btnBooks.className = "flex-1 py-2 rounded-lg text-xs font-bold bg-amber-500 text-slate-950 transition-all";
+                btnPrayers.className = "flex-1 py-2 rounded-lg text-xs font-bold bg-slate-900/80 text-amber-200 border border-amber-500/30 transition-all";
+            }
+        }
+
+        // 1. ጸሎት ሴቭ ማድረግ
+        function savePrayer() {
+            const title = document.getElementById('prayerTitle').value.trim();
+            const body = document.getElementById('prayerBody').value.trim();
+            if (!title || !body) return alert('እባክዎን የጸሎቱን ርዕስ እና ጽሁፍ ያስገቡ!');
+            
+            const items = JSON.parse(localStorage.getItem('yosef_prayers') || '[]');
+            items.push({ id: Date.now(), title, body });
+            localStorage.setItem('yosef_prayers', JSON.stringify(items));
+            
+            document.getElementById('prayerTitle').value = '';
+            document.getElementById('prayerBody').value = '';
+            renderPrayers();
+        }
+
+        function renderPrayers() {
+            const items = JSON.parse(localStorage.getItem('yosef_prayers') || '[]');
+            const container = document.getElementById('prayersList');
+            if(!container) return;
+            
+            if(items.length === 0) {
+                container.innerHTML = `<p class="text-xs text-amber-200/50 text-center py-2">እስከ አሁን የተመዘገበ ጸሎት የለም።</p>`;
+                return;
+            }
+
+            container.innerHTML = items.map(item => `
+                <div class="p-3 bg-slate-950/90 rounded-xl border border-amber-500/30 shadow-md">
+                    <div class="flex justify-between items-center text-amber-300 font-bold mb-2 border-b border-amber-500/20 pb-1">
+                        <span class="text-sm">🙏 ${item.title}</span>
+                        <button onclick="deleteCreativeItem('yosef_prayers', ${item.id})" class="text-red-400 hover:text-red-300 text-xs">🗑️ አጥፋ</button>
+                    </div>
+                    <p class="whitespace-pre-line text-xs text-amber-100/90 leading-relaxed font-serif">${item.body}</p>
+                </div>
+            `).join('');
+        }
+
+        // 2. መንፈሳዊ መጽሐፍ ሴቭ ማድረግ
+        function saveSpiritualBook() {
+            const title = document.getElementById('bookTitle').value.trim();
+            const body = document.getElementById('bookBody').value.trim();
+            if (!title || !body) return alert('እባክዎን የመጽሐፉን ርዕስ እና ጽሁፍ ያስገቡ!');
+            
+            const items = JSON.parse(localStorage.getItem('yosef_spiritual_books') || '[]');
+            items.push({ id: Date.now(), title, body });
+            localStorage.setItem('yosef_spiritual_books', JSON.stringify(items));
+            
+            document.getElementById('bookTitle').value = '';
+            document.getElementById('bookBody').value = '';
+            renderSpiritualBooks();
+        }
+
+        function renderSpiritualBooks() {
+            const items = JSON.parse(localStorage.getItem('yosef_spiritual_books') || '[]');
+            const container = document.getElementById('booksList');
+            if(!container) return;
+
+            if(items.length === 0) {
+                container.innerHTML = `<p class="text-xs text-amber-200/50 text-center py-2">እስከ አሁን የተመዘገበ መጽሐፍ የለም።</p>`;
+                return;
+            }
+
+            container.innerHTML = items.map(item => `
+                <div class="p-3 bg-slate-950/90 rounded-xl border border-amber-500/30 shadow-md">
+                    <div class="flex justify-between items-center text-amber-300 font-bold mb-2 border-b border-amber-500/20 pb-1">
+                        <span class="text-sm">📚 ${item.title}</span>
+                        <button onclick="deleteCreativeItem('yosef_spiritual_books', ${item.id})" class="text-red-400 hover:text-red-300 text-xs">🗑️ አጥፋ</button>
+                    </div>
+                    <p class="whitespace-pre-line text-xs text-amber-100/90 leading-relaxed font-serif">${item.body}</p>
+                </div>
+            `).join('');
+        }
+
+        // ማጥፊያ ጥሪ ሲደረግ እንዲያድስ ማስተካከል
+        const originalDelete = deleteCreativeItem;
+        deleteCreativeItem = function(key, id) {
+            originalDelete(key, id);
+            if (key === 'yosef_prayers') renderPrayers();
+            if (key === 'yosef_spiritual_books') renderSpiritualBooks();
+        };
+
+        // አፑ ሲከፈት እንዲወጡ ማድረግ
+        window.addEventListener('DOMContentLoaded', () => {
+            renderPrayers();
+            renderSpiritualBooks();
+        });  
     </script>
 </body>
 </html>
