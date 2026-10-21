@@ -29,12 +29,33 @@
 
     <style>
         /* Translucent Dark Glassmorphism Panel */
+       /* Dynamic Light/Dark Glassmorphism Panel */
         .glass-panel {
-            background: rgba(15, 23, 42, 0.82);
+            background: rgba(255, 247, 237, 0.88); /* በቀን ሰዓት፡ ሞቅ ያለ አምበር/ብርቱካናማ ነጭ */
+            color: #1e293b;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(245, 158, 11, 0.35);
+            border: 1px solid rgba(249, 115, 22, 0.4);
             border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(234, 88, 12, 0.15);
+        }
+
+        /* በDark Mode ጊዜ ወደ ድሮው እንዲመለስ */
+        .dark .glass-panel {
+            background: rgba(15, 23, 42, 0.85);
+            color: #f8fafc;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+        }
+
+        /* Day Mode Background Gradient (Rich Orange Theme) */
+        .bg-virgin-mary {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 50%, #fed7aa 100%);
+            background-attachment: fixed;
+        }
+
+        .dark .bg-virgin-mary {
+            background: linear-gradient(135deg, #090d16 0%, #111827 50%, #1e1b4b 100%);
+            background-attachment: fixed;
         }
 
         /* Virgin Mary Clear Background Watermark */
@@ -66,7 +87,7 @@
         .flash-alert { animation: flashRed 0.5s infinite; }
     </style>
 </head>
-<body class="bg-virgin-mary min-h-screen text-slate-100 font-sans transition-colors duration-300"></body>
+<body class="bg-virgin-mary min-h-screen text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300"></body>
 
     <!-- Header Section -->
     <header class="p-6 text-white text-center relative border-b border-amber-500/30">
@@ -271,7 +292,49 @@
                 </div>
             </div>
         </section>
+<!-- 12. የመዝሙር ግጥሞች (Spiritual Hymns & Poetry) -->
+        <section class="glass-panel p-5 rounded-2xl shadow-xl">
+            <h2 class="text-lg font-bold text-amber-300 mb-3">🎵 የመዝሙር ግጥሞች</h2>
+            <div class="space-y-2">
+                <input type="text" id="hymnTitle" placeholder="የመዝሙሩ ርዕስ..." class="w-full p-2 border border-amber-500/30 rounded-lg text-xs bg-slate-900 text-amber-100 focus:outline-none">
+                <textarea id="hymnBody" rows="4" placeholder="የመዝሙሩን ግጥም እዚህ ጻፍ..." class="w-full p-2 border border-amber-500/30 rounded-lg text-xs bg-slate-900 text-amber-100 focus:outline-none"></textarea>
+                <button onclick="saveHymn()" class="w-full btn-primary p-2 rounded-lg text-xs font-bold">💾 የመዝሙር ግጥም መዝግብ</button>
+                <div id="hymnsList" class="mt-3 space-y-2 max-h-48 overflow-y-auto"></div>
+            </div>
+        </section>
 
+        <!-- 13. መደበኛ ግጥሞች (General Poetry) -->
+        <section class="glass-panel p-5 rounded-2xl shadow-xl">
+            <h2 class="text-lg font-bold text-amber-300 mb-3">✍️ መደበኛ ግጥሞች</h2>
+            <div class="space-y-2">
+                <input type="text" id="poemTitle" placeholder="የግጥሙ ርዕስ..." class="w-full p-2 border border-amber-500/30 rounded-lg text-xs bg-slate-900 text-amber-100 focus:outline-none">
+                <textarea id="poemBody" rows="4" placeholder="ግጥሙን እዚህ ጻፍ..." class="w-full p-2 border border-amber-500/30 rounded-lg text-xs bg-slate-900 text-amber-100 focus:outline-none"></textarea>
+                <button onclick="savePoem()" class="w-full btn-primary p-2 rounded-lg text-xs font-bold">💾 ግጥሙን መዝግብ</button>
+                <div id="poemsList" class="mt-3 space-y-2 max-h-48 overflow-y-auto"></div>
+            </div>
+        </section>
+
+        <!-- 14. ድርሰቶች እና ታሪኮች (Essays & Stories) -->
+        <section class="glass-panel p-5 rounded-2xl shadow-xl">
+            <h2 class="text-lg font-bold text-amber-300 mb-3">📖 ድርሰት እና አጫጭር ታሪኮች</h2>
+            <div class="space-y-2">
+                <input type="text" id="storyTitle" placeholder="የድርሰቱ / የታሪኩ ርዕስ..." class="w-full p-2 border border-amber-500/30 rounded-lg text-xs bg-slate-900 text-amber-100 focus:outline-none">
+                <textarea id="storyBody" rows="5" placeholder="ድርሰቱን እዚህ ጻፍ..." class="w-full p-2 border border-amber-500/30 rounded-lg text-xs bg-slate-900 text-amber-100 focus:outline-none"></textarea>
+                <button onclick="saveStory()" class="w-full btn-primary p-2 rounded-lg text-xs font-bold">💾 ድርሰቱን መዝግብ</button>
+                <div id="storiesList" class="mt-3 space-y-2 max-h-48 overflow-y-auto"></div>
+            </div>
+        </section>
+
+        <!-- 15. Gemini AI ረዳት ማስታወሻ (AI Assistant Hub) -->
+        <section class="glass-panel p-5 rounded-2xl shadow-xl border border-amber-500/40">
+            <h2 class="text-lg font-bold text-amber-300 mb-2">🤖 Gemini AI ረዳትና ሀሳብ ማከማቻ</h2>
+            <p class="text-xs text-amber-100/70 mb-3">ከ Gemini ጋር የምትነጋገራቸውን ሀሳቦች፣ የጥያቄ ጥቆማዎችና የግጥም ሀሳቦች እዚህ አስቀምጥ፡</p>
+            <div class="space-y-2">
+                <textarea id="aiPrompt" rows="3" placeholder="ለ Gemini የምትጠይቀውን ሀሳብ ወይም ጥያቄ እዚህ አስቀምጥ..." class="w-full p-2 border border-amber-500/30 rounded-lg text-xs bg-slate-900 text-amber-100 focus:outline-none"></textarea>
+                <button onclick="saveAiPrompt()" class="w-full btn-primary p-2 rounded-lg text-xs font-bold">💾 ሀሳቡን ሴቭ አድርግ</button>
+                <div id="aiPromptsList" class="mt-3 space-y-2 max-h-40 overflow-y-auto"></div>
+            </div>
+        </section>
     </main>
 <!-- Footer Section -->
     <footer class="mt-12 py-6 bg-slate-950/90 border-t border-amber-500/30 text-center text-xs text-amber-200/80">
@@ -662,6 +725,129 @@
                 res.innerHTML = `<em>"${q}" የሚለው ቃል በመዝገበ ቃላቱ ውስጥ አልተገኘም።</em>`;
             }
         }
+    /* ===== CREATIVE WRITING & AI HUB LOGIC ===== */
+
+        // 1. የመዝሙር ግጥሞች
+        function saveHymn() {
+            const title = document.getElementById('hymnTitle').value.trim();
+            const body = document.getElementById('hymnBody').value.trim();
+            if (!title || !body) return alert('እባክዎን ርዕስ እና ግጥም ያስገቡ!');
+            const items = JSON.parse(localStorage.getItem('yosef_hymns') || '[]');
+            items.push({ id: Date.now(), title, body });
+            localStorage.setItem('yosef_hymns', JSON.stringify(items));
+            document.getElementById('hymnTitle').value = '';
+            document.getElementById('hymnBody').value = '';
+            renderHymns();
+        }
+        function renderHymns() {
+            const items = JSON.parse(localStorage.getItem('yosef_hymns') || '[]');
+            const container = document.getElementById('hymnsList');
+            if(!container) return;
+            container.innerHTML = items.map(item => `
+                <div class="p-2 bg-slate-950/80 rounded-lg border border-amber-500/20 text-xs">
+                    <div class="flex justify-between items-center text-amber-300 font-bold mb-1">
+                        <span>🎵 ${item.title}</span>
+                        <button onclick="deleteCreativeItem('yosef_hymns', ${item.id})" class="text-red-400 hover:text-red-300">🗑️</button>
+                    </div>
+                    <p class="whitespace-pre-line text-amber-100/90">${item.body}</p>
+                </div>
+            `).join('');
+        }
+
+        // 2. መደበኛ ግጥሞች
+        function savePoem() {
+            const title = document.getElementById('poemTitle').value.trim();
+            const body = document.getElementById('poemBody').value.trim();
+            if (!title || !body) return alert('እባክዎን ርዕስ እና ግጥም ያስገቡ!');
+            const items = JSON.parse(localStorage.getItem('yosef_poems') || '[]');
+            items.push({ id: Date.now(), title, body });
+            localStorage.setItem('yosef_poems', JSON.stringify(items));
+            document.getElementById('poemTitle').value = '';
+            document.getElementById('poemBody').value = '';
+            renderPoems();
+        }
+        function renderPoems() {
+            const items = JSON.parse(localStorage.getItem('yosef_poems') || '[]');
+            const container = document.getElementById('poemsList');
+            if(!container) return;
+            container.innerHTML = items.map(item => `
+                <div class="p-2 bg-slate-950/80 rounded-lg border border-amber-500/20 text-xs">
+                    <div class="flex justify-between items-center text-amber-300 font-bold mb-1">
+                        <span>✍️ ${item.title}</span>
+                        <button onclick="deleteCreativeItem('yosef_poems', ${item.id})" class="text-red-400 hover:text-red-300">🗑️</button>
+                    </div>
+                    <p class="whitespace-pre-line text-amber-100/90">${item.body}</p>
+                </div>
+            `).join('');
+        }
+
+        // 3. ድርሰቶች እና ታሪኮች
+        function saveStory() {
+            const title = document.getElementById('storyTitle').value.trim();
+            const body = document.getElementById('storyBody').value.trim();
+            if (!title || !body) return alert('እባክዎን ርዕስ እና ድርሰት ያስገቡ!');
+            const items = JSON.parse(localStorage.getItem('yosef_stories') || '[]');
+            items.push({ id: Date.now(), title, body });
+            localStorage.setItem('yosef_stories', JSON.stringify(items));
+            document.getElementById('storyTitle').value = '';
+            document.getElementById('storyBody').value = '';
+            renderStories();
+        }
+        function renderStories() {
+            const items = JSON.parse(localStorage.getItem('yosef_stories') || '[]');
+            const container = document.getElementById('storiesList');
+            if(!container) return;
+            container.innerHTML = items.map(item => `
+                <div class="p-2 bg-slate-950/80 rounded-lg border border-amber-500/20 text-xs">
+                    <div class="flex justify-between items-center text-amber-300 font-bold mb-1">
+                        <span>📖 ${item.title}</span>
+                        <button onclick="deleteCreativeItem('yosef_stories', ${item.id})" class="text-red-400 hover:text-red-300">🗑️</button>
+                    </div>
+                    <p class="whitespace-pre-line text-amber-100/90">${item.body}</p>
+                </div>
+            `).join('');
+        }
+
+        // 4. Gemini AI ሀሳቦች
+        function saveAiPrompt() {
+            const body = document.getElementById('aiPrompt').value.trim();
+            if (!body) return alert('እባክዎን ሀሳብ ወይም ጥያቄ ያስገቡ!');
+            const items = JSON.parse(localStorage.getItem('yosef_ai_prompts') || '[]');
+            items.push({ id: Date.now(), body });
+            localStorage.setItem('yosef_ai_prompts', JSON.stringify(items));
+            document.getElementById('aiPrompt').value = '';
+            renderAiPrompts();
+        }
+        function renderAiPrompts() {
+            const items = JSON.parse(localStorage.getItem('yosef_ai_prompts') || '[]');
+            const container = document.getElementById('aiPromptsList');
+            if(!container) return;
+            container.innerHTML = items.map(item => `
+                <div class="p-2 bg-slate-950/80 rounded-lg border border-amber-500/20 text-xs flex justify-between items-start gap-2">
+                    <p class="whitespace-pre-line text-amber-100/90 flex-1">${item.body}</p>
+                    <button onclick="deleteCreativeItem('yosef_ai_prompts', ${item.id})" class="text-red-400 hover:text-red-300">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        // ማጥፊያ Function (Delete Item)
+        function deleteCreativeItem(key, id) {
+            let items = JSON.parse(localStorage.getItem(key) || '[]');
+            items = items.filter(item => item.id !== id);
+            localStorage.setItem(key, JSON.stringify(items));
+            if (key === 'yosef_hymns') renderHymns();
+            if (key === 'yosef_poems') renderPoems();
+            if (key === 'yosef_stories') renderStories();
+            if (key === 'yosef_ai_prompts') renderAiPrompts();
+        }
+
+        // አፑ ሲከፈት የተመዘገቡትን በሙሉ እንዲያወጣ ጥሪ ማድረግ
+        window.addEventListener('DOMContentLoaded', () => {
+            renderHymns();
+            renderPoems();
+            renderStories();
+            renderAiPrompts();
+        });
     </script>
 </body>
 </html>
