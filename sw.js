@@ -1,52 +1,52 @@
-const CACHE_NAME = 'bete-estifanos-v3';
-const ASSETS_TO_CACHE = [
-  './',
-  './index.html',
-  './manifest.json',
-  'https://cdn.tailwindcss.com',
-  'https://actions.google.com/sounds/v1/alarms/beep_short.ogg'
+const CACHE_NAME = 'bete-yosef-cache-v1';
+const urlsToCache = [
+    './',
+    './index.html',
+    './manifest.json'
 ];
 
-// Service Worker Installation
+// 1. Install Service Worker & Cache Essential Files
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW] Caching app assets...');
-      return cache.addAll(ASSETS_TO_CACHE);
-    })
-  );
-  self.skipWaiting();
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then((cache) => {
+                console.log('Opened cache');
+                return cache.addAll(urlsToCache);
+            })
+    );
+    self.skipWaiting();
 });
 
-// Service Worker Activation & Cleanup
+// 2. Activate & Clean up old caches
 self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) {
-            console.log('[SW] Deleting old cache:', cache);
-            return caches.delete(cache);
-          }
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((cacheName) => {
+                    if (cacheName !== CACHE_NAME) {
+                        console.log('Deleting old cache:', cacheName);
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
         })
-      );
-    })
-  );
-  self.clients.claim();
+    );
+    self.clients.claim();
 });
 
-// Offline Fetch Request Handling
+// 3. Fetch from Cache first, fallback to Network (Offline Mode)
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(event.request).catch(() => {
-        if (event.request.mode === 'navigate') {
-          return caches.match('./index.html');
-        }
-      });
-    })
-  );
+    event.respondWith(
+        caches.match(event.request)
+            .then((response) => {
+                // If found in cache, return it. Otherwise, fetch from network.
+                if (response) {
+                    return response;
+                }
+                return fetch(event.request).catch(() => {
+                    // Optional: You can return a custom offline fallback page here if needed
+                    console.log('Network request failed, offline mode active.');
+                });
+            })
+    );
 });
